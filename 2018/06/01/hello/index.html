@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="基础知识本文代码本文所用代码开源在：https://gitee.com/kiteff/springcloud_learning_project欢迎技术交流一起进步 什么是CAP在一个分布式系统中，C(一致性)、A（可用性）、P(容错性) ,三者最多同时只能满足两个    项目 解释     一致性 在分布式系统中的所有的数据备份，在同一个时刻，都拥有同样的值。（所有的节点在同一时刻的数据完全一致，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring cloud">
+<meta property="og:url" content="http://yoursite.com/2018/06/01/hello/index.html">
+<meta property="og:site_name" content="小X的博客">
+<meta property="og:description" content="基础知识本文代码本文所用代码开源在：https://gitee.com/kiteff/springcloud_learning_project欢迎技术交流一起进步 什么是CAP在一个分布式系统中，C(一致性)、A（可用性）、P(容错性) ,三者最多同时只能满足两个    项目 解释     一致性 在分布式系统中的所有的数据备份，在同一个时刻，都拥有同样的值。（所有的节点在同一时刻的数据完全一致，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-28T04:46:33.754Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring cloud">
+<meta name="twitter:description" content="基础知识本文代码本文所用代码开源在：https://gitee.com/kiteff/springcloud_learning_project欢迎技术交流一起进步 什么是CAP在一个分布式系统中，C(一致性)、A（可用性）、P(容错性) ,三者最多同时只能满足两个    项目 解释     一致性 在分布式系统中的所有的数据备份，在同一个时刻，都拥有同样的值。（所有的节点在同一时刻的数据完全一致，">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/01/hello/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>spring cloud | 小X的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小X的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-java开发">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/java开发/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>java开发</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/01/hello/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢子豪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小X的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">spring cloud
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-01 23:47:44" itemprop="dateCreated datePublished" datetime="2018-06-01T23:47:44+08:00">2018-06-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-28 12:46:33" itemprop="dateModified" datetime="2018-12-28T12:46:33+08:00">2018-12-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/java开发/" itemprop="url" rel="index"><span itemprop="name">java开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="本文代码"><a href="#本文代码" class="headerlink" title="本文代码"></a>本文代码</h2><p>本文所用代码开源在：<br><a href="https://gitee.com/kiteff/springcloud_learning_project" target="_blank" rel="noopener">https://gitee.com/kiteff/springcloud_learning_project</a><br>欢迎技术交流一起进步</p>
+<h2 id="什么是CAP"><a href="#什么是CAP" class="headerlink" title="什么是CAP"></a>什么是CAP</h2><p>在一个分布式系统中，C(一致性)、A（可用性）、P(容错性) ,三者最多同时只能满足两个</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一致性</td>
+<td>在分布式系统中的所有的数据备份，在同一个时刻，都拥有同样的值。（所有的节点在同一时刻的数据完全一致，节点越多，数据同步越耗时）</td>
+</tr>
+<tr>
+<td>可用性</td>
+<td>负载过大的时候，集群整体是否能够响应客户端的读写请求，（服务一直可用，而且是正常的响应时间）</td>
+</tr>
+<tr>
+<td>分区容错性</td>
+<td>高可用，一个节点奔溃了，并不会影响其他的节点。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="为什么CAP只能三选一"><a href="#为什么CAP只能三选一" class="headerlink" title="为什么CAP只能三选一"></a>为什么CAP只能三选一</h2><table>
+<thead>
+<tr>
+<th>组合</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CA组合</td>
+<td>数据同步需要时间，也要在正常的时间内响应，那么机器的数量就必须要少，容错性就不能满足了</td>
+</tr>
+<tr>
+<td>CP组合</td>
+<td>数据同步需要时间，机器的数量又要多才能保证容错性，就要耗费大量的时间，可用性就不能满足</td>
+</tr>
+<tr>
+<td>AP组合</td>
+<td>机器数量多，同时又要保持在正常时间内响应，就不能保证数据同步，以此来节约时间</td>
+</tr>
+</tbody>
+</table>
+<h2 id="注册中心如何选择"><a href="#注册中心如何选择" class="headerlink" title="注册中心如何选择"></a>注册中心如何选择</h2><table>
+<thead>
+<tr>
+<th>注册中心</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zookeeper</td>
+<td>CP 设计，为了保证一致性，集群某一个节点失效以后，就会进行leader选举，如果板半数以上节点不可以用，集群就无法再提供服务</td>
+</tr>
+<tr>
+<td>Eureka</td>
+<td>AP 设计，无主从节点，一个节点挂了以后，其他节点直接上去，去中心化</td>
+</tr>
+</tbody>
+</table>
+<h1 id="Eureka-Server-搭建"><a href="#Eureka-Server-搭建" class="headerlink" title="Eureka Server 搭建"></a>Eureka Server 搭建</h1><p>打开 IDEA -&gt; Spring Initializer-&gt;选Cloud Discovery -&gt; Eureka Server</p>
+<ul>
+<li><p><strong>设置yml 文档</strong></p>
+ <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8761</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line"><span class="attr">    hostname:</span> <span class="string">localhost</span></span><br><span class="line"><span class="attr">    statusPageUrlPath:</span>  <span class="attr">http://$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/info</span></span><br><span class="line"><span class="attr">    healthCheckUrlPath:</span> <span class="attr">http://$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/health</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line">    <span class="comment">#表示这是一个服务端，他不会去获取数据</span></span><br><span class="line"><span class="attr">    registerWithEureka:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    fetchRegistry:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line">      <span class="comment">#注册中心地址</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/eureka/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在application 上加入@EnableEurekaServer</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(EurekaServerApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>启动即可，然后浏览器访问 <a href="http://localhost:8761/" target="_blank" rel="noopener">http://localhost:8761/</a> （8761就是设置的server.port）</p>
+<h1 id="服务提供者"><a href="#服务提供者" class="headerlink" title="服务提供者"></a>服务提供者</h1><h2 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h2><p>和之前一样的建设步骤</p>
+<ul>
+<li><p><strong>设置yml 文件</strong></p>
+ <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line">        <span class="comment">#这里的地址要和eureka server 的地址一致</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka/</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8771</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">product-service</span> <span class="comment">#这个名字很重要，之后服务消费者要根据这个地址来调用要唯一</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="小技巧如何启动多个端口服务"><a href="#小技巧如何启动多个端口服务" class="headerlink" title="小技巧如何启动多个端口服务"></a>小技巧如何启动多个端口服务</h2><p>为了测试，我们可以在idea 的<code>configuretion -&gt; vm options</code> 里输入 <code>-Dserver.port=8771</code></p>
+<p>这个8771 端口就是服务提供的端口</p>
+<p>然后再启动</p>
+<h2 id="如何关闭保护模式"><a href="#如何关闭保护模式" class="headerlink" title="如何关闭保护模式"></a>如何关闭保护模式</h2><p>Eureka-Server 的yml 文件中</p>
+<pre><code>server:
+    enable-self-preservation: false
+</code></pre><p>保护模式的作用是：如果Eureka server 发现客户端好像死了，在保护模式下并不会直接移除这个客户端，一般会采用熔断的机制，定时的再去访问访问，如果关闭了保护模式就会直接移除，生产环境建议不要关闭</p>
+<h1 id="服务消费者"><a href="#服务消费者" class="headerlink" title="服务消费者"></a>服务消费者</h1><h2 id="两种模式的区别"><a href="#两种模式的区别" class="headerlink" title="两种模式的区别"></a>两种模式的区别</h2><table>
+<thead>
+<tr>
+<th>模式</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RPC</td>
+<td>远程过程调用，像调用本地服务一样调用远程的的服务，支持同步异步.<br>客户端和服务器之间建立tcp连接，可以一次建立多个，也可以复用一个，缺点是编解码，序列化，链接，丢包 protobuf</td>
+</tr>
+<tr>
+<td>http(rest)</td>
+<td>http请求支持多种协议和功能，开发方便成本低，但是数据包大</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Ribbon"><a href="#Ribbon" class="headerlink" title="Ribbon"></a>Ribbon</h2><p>看文档 ，文档为主</p>
+<p>两种模式下都要加上 web 依赖</p>
+<ul>
+<li><p>编写 yml 文件 ,这里ribbon的yml 和下面的feign 一致</p>
+  <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka/</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8781</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">client-demo</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>加入依赖</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">		&lt;artifactId&gt;spring-cloud-starter-netflix-ribbon&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>注入负载均衡器</p>
+<p>  在application 里</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@LoadBalanced</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> RestTemplate <span class="title">restTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>@LoadBalanced 这个是表示他是一个负载均衡的
+</code></pre><ul>
+<li><p>使用</p>
+<p>  在servcie中</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Object forObject = restTemplate.getForObject(<span class="string">"http://product-service/api/v1/product/find?id="</span> + id, Object.class);</span><br><span class="line">System.out.println(forObject);</span><br><span class="line"><span class="keyword">return</span> forObject;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>这里 getForObject 里的地址格式是：http://服务提供者的名字/对应的路径
+</code></pre><h2 id="Feign"><a href="#Feign" class="headerlink" title="Feign"></a>Feign</h2><ul>
+<li><p>引入依赖</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 application 上增加注解</p>
+</li>
+</ul>
+<pre><code>`@EnableFeignClients`
+</code></pre><ul>
+<li><p>新增一个接口</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* value 是要消费的服务名称</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@FeignClient</span>(value = <span class="string">"product-service"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FeignClient</span> </span>&#123;</span><br><span class="line">    <span class="comment">//getMapping 说明这是一个get请求，里面的值就是这个服务的具体地址</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/api/v1/product/find"</span>)</span><br><span class="line">    <span class="comment">//方法名随意，里面的参数就是对应 服务提供者所需要的参数</span></span><br><span class="line">    <span class="function">String <span class="title">findById</span><span class="params">(@RequestParam(value = <span class="string">"id"</span>)</span> <span class="keyword">int</span> id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在service中调用这个接口</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String client = feignClient.findById(id);</span><br><span class="line">System.out.println(client);</span><br><span class="line"><span class="keyword">return</span> client;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="熔断和降级"><a href="#熔断和降级" class="headerlink" title="熔断和降级"></a>熔断和降级</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>熔断</td>
+<td>熔断的作用是保护服务的调用方和被调用方，一个操作 可能要调用a b c 三个服务，但是比如服务B 现在挂了，这个就会导致，整个操作不能进行，这个时候应该及时熔断，服务b ，这样之后就不会去调用服务b 了，保证了整个操作能完成</td>
+</tr>
+<tr>
+<td>降级</td>
+<td>有时候数据量比较大，比如双十一期间，我们可以把一些，次要的服务降级，系统吃紧的时候不去调用他们而去采用兜底数据</td>
+</tr>
+</tbody>
+</table>
+<h2 id="hystrix"><a href="#hystrix" class="headerlink" title="hystrix"></a>hystrix</h2><ul>
+<li>引入依赖  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-netflix-hystrix&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>修改yml配置文件</p>
+  <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">feign:</span></span><br><span class="line"><span class="attr">  hystrix:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置超时时间</p>
+  <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds:</span> <span class="number">5000</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>这一句话的意思是设置5秒超时 ， 可以不设置 ，但我建议设置，不然必会发现关闭一个服务时，会有比较明显的抖动
+</code></pre><h3 id="使用方法一"><a href="#使用方法一" class="headerlink" title="使用方法一"></a>使用方法一</h3><p>第一种使用的方法是在controller 中使用</p>
+<ul>
+<li>在要熔断的controller上添加注解   <code>@EnableCircuitBreaker</code></li>
+</ul>
+<pre><code>表示开启了断路器
+</code></pre><ul>
+<li>编写代码  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/getFeign"</span>)</span><br><span class="line"><span class="comment">//指定服务挂了以后用defaultStores方法处理</span></span><br><span class="line"><span class="meta">@HystrixCommand</span>(fallbackMethod = <span class="string">"defaultStores"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">getProductFeign</span><span class="params">(@RequestParam (value = <span class="string">"id"</span>)</span> <span class="keyword">int</span> id)</span>&#123;</span><br><span class="line">    Object project = productService.getProjectByFeign(id);</span><br><span class="line">    HashMap&lt;Object, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    map.put(<span class="string">"info"</span>,project);</span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//处理的方法参数要和调用者的一致</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">defaultStores</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    HashMap&lt;Object, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    map.put(<span class="string">"code"</span>,-<span class="number">1</span>);</span><br><span class="line">    map.put(<span class="string">"info"</span>,<span class="string">"断路器启用"</span>);</span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="使用方法二"><a href="#使用方法二" class="headerlink" title="使用方法二"></a>使用方法二</h3><p>第二种方法 要配合Feign使用</p>
+<ul>
+<li><p>实现一个一个异常处理类继承要熔断的 FeignClient</p>
+<p>  要加上<code>@Componet</code> 注解 才能被扫描到</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FeignClientFallBack</span> <span class="keyword">implements</span> <span class="title">FeignClient</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">findById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"出现异常了"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>在FeignClient中添加一个fallback 指定异常处理类</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这里的 fallback 就是指定了异常处理类</span></span><br><span class="line"><span class="meta">@FeignClient</span>(value = <span class="string">"product-service"</span>, fallback = FeignClientFallBack.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FeignClient</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/api/v1/product/find"</span>)</span><br><span class="line">    <span class="function">String <span class="title">findById</span><span class="params">(@RequestParam(value = <span class="string">"id"</span>)</span> <span class="keyword">int</span> id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="Zuul-网关"><a href="#Zuul-网关" class="headerlink" title="Zuul 网关"></a>Zuul 网关</h1><ul>
+<li><p>添加依赖</p>
+<pre><code>&lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+</code></pre></li>
+<li><p>在application 中 开启网关</p>
+<pre><code>@SpringBootApplication
+@EnableZuulProxy
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+</code></pre></li>
+<li><p>定义拦截器</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line">	<span class="comment">//继承ZuulFilter</span></span><br><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFilter</span> <span class="keyword">extends</span> <span class="title">ZuulFilter</span> </span>&#123;</span><br><span class="line">	    <span class="comment">//拦截器的类型  PRE_TYPE 表示前置拦截</span></span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">	    <span class="function"><span class="keyword">public</span> String <span class="title">filterType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	        <span class="keyword">return</span> PRE_TYPE;</span><br><span class="line">	    &#125;</span><br><span class="line">		<span class="comment">//拦截器的优先级   越小越先执行</span></span><br><span class="line">	    <span class="meta">@Override</span></span><br><span class="line">	    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">filterOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	        <span class="keyword">return</span> <span class="number">4</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">		<span class="comment">//拦截以后的处理方法，返回false 进入下面的异常处理</span></span><br><span class="line">	    <span class="meta">@Override</span></span><br><span class="line">	    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	        RequestContext currentContext = RequestContext.getCurrentContext();</span><br><span class="line">	        HttpServletRequest httpServletRequest = currentContext.getRequest();</span><br><span class="line">	        <span class="keyword">if</span>(<span class="string">"/ps/api/v1/product/list"</span>.equals(httpServletRequest.getRequestURI()))&#123;</span><br><span class="line">	            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	        &#125;</span><br><span class="line">	        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">		<span class="comment">//异常处理</span></span><br><span class="line">	    <span class="meta">@Override</span></span><br><span class="line">	    <span class="function"><span class="keyword">public</span> Object <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> ZuulException </span>&#123;</span><br><span class="line">	        System.out.println(<span class="string">"欢迎傻逼"</span>);</span><br><span class="line">	        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置yml 文件</p>
+  <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#基础的配置</span></span><br><span class="line"><span class="attr">   server:</span></span><br><span class="line"><span class="attr">     port:</span> <span class="number">9000</span></span><br><span class="line"><span class="attr">   spring:</span></span><br><span class="line"><span class="attr">     application:</span></span><br><span class="line"><span class="attr">       name:</span> <span class="string">api-gateway</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">   eureka:</span></span><br><span class="line"><span class="attr">     client:</span></span><br><span class="line"><span class="attr">       serviceUrl:</span></span><br><span class="line"><span class="attr">         defaultZone:</span> <span class="attr">http://localhost:8761/eureka/</span></span><br><span class="line"></span><br><span class="line">   <span class="comment"># zuul 网关的配置</span></span><br><span class="line"><span class="attr">   zuul:</span></span><br><span class="line"><span class="attr">     routes:</span></span><br><span class="line"><span class="attr">       product-service:</span> <span class="string">/ps/**</span></span><br><span class="line"><span class="attr">     ignored-patterns:</span> <span class="string">/*-service/**</span></span><br><span class="line">     <span class="comment">#ignored-services: product-service</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>下面解释一下上面的网关部分的配置</p>
+<p><strong>product-service</strong>:   表示将product-service的请求，别名成ps</p>
+<p><strong>ignored-patterns</strong>   表示不拦截哪些url的请求（可以用这个 关闭掉原来的服务访问方式）</p>
+<p><strong>ignored-services</strong>  表示不拦截哪些service</p>
+<p>比如 <a href="http://localhost:9000/product-service/api/v1/product/list" target="_blank" rel="noopener">http://localhost:9000/product-service/api/v1/product/list</a><br>在加上<code>ignored-patterns: /*-service/**</code> 就不能再访问了</p>
+<h1 id="全链路追踪"><a href="#全链路追踪" class="headerlink" title="全链路追踪"></a>全链路追踪</h1><h2 id="安装sleuth"><a href="#安装sleuth" class="headerlink" title="安装sleuth"></a>安装sleuth</h2><ul>
+<li>配置pom文件  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-sleuth&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>编写代码</p>
+<p>   在服务的controller 中加入</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(getClass());</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>然后用日志打印，这里可以不加，但是会出现多次访问的时候日志不打印的情况，所以还是要加上的。
+
+之后我们就能在日志中看到输出如
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INFO [product-service,ab6728444294f2ab,ab6728444294f2ab,true] 27528 --- [nio-8771-exec-2]</span><br></pre></td></tr></table></figure>
+
+下面对参数进行解释
+|值|解释|
+|:---|:---|
+|第一个值|spring.application.name的值|
+|第二个值|sleuth生成的一个ID，叫Trace ID，用来标识一条请求链路，一条请求链路中包含一个Trace ID，多个Span ID|
+|第三个值|panid 基本的工作单元，获取元数据，如发送一个http|
+|第四个值|是否要将该信息输出到zipkin服务中来收集和展示|
+</code></pre><h2 id="可视化-zipkin"><a href="#可视化-zipkin" class="headerlink" title="可视化 zipkin"></a>可视化 zipkin</h2><p>刚才已经可以打印日志了，但是要做链路追踪还是需要一个可视化的界面才好</p>
+<ul>
+<li>加上依赖  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-zipkin&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>注意 这个依赖中已经包含了sleuth 的依赖，所以可以将sleuth的依赖去掉
+</code></pre><ul>
+<li><p>安装zipkin</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 9411:9411 openzipkin/zipkin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置yml文件</p>
+  <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka/</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8771</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">product-service</span></span><br><span class="line">  <span class="comment"># 建立zipkin的地址 </span></span><br><span class="line"><span class="attr">  zipkin:</span></span><br><span class="line"><span class="attr">    base-url:</span> <span class="attr">http://47.106.14.61:9411/</span></span><br><span class="line">  <span class="comment">#记录的百分比，默认是0.1,也就是10%，也是是10条访问里记录一条</span></span><br><span class="line"><span class="attr">  sleuth:</span></span><br><span class="line"><span class="attr">    sampler:</span></span><br><span class="line"><span class="attr">      probability:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>之后访问几次服务，然后打开
+    http://47.106.14.61:9411/  就能看了
+</code></pre><h1 id="配置中心"><a href="#配置中心" class="headerlink" title="配置中心"></a>配置中心</h1><p>注册中心的作用是，当我们的微服务如果需要改变一些配置，注册中心可以让各个服务从配置中心拉取配置</p>
+<h2 id="安装配置中心"><a href="#安装配置中心" class="headerlink" title="安装配置中心"></a>安装配置中心</h2><h1 id="Docker-使用"><a href="#Docker-使用" class="headerlink" title="Docker 使用"></a>Docker 使用</h1><h2 id="Docker搭建"><a href="#Docker搭建" class="headerlink" title="Docker搭建"></a>Docker搭建</h2><p>参考</p>
+<p><a href="https://help.aliyun.com/document_detail/51853.html?spm=a2c4g.11186623.6.820.RaToNY" target="_blank" rel="noopener">https://help.aliyun.com/document_detail/51853.html?spm=a2c4g.11186623.6.820.RaToNY</a></p>
+<ul>
+<li>添加yum源 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># yum install epel-release –y</span><br><span class="line"># yum clean all</span><br><span class="line"># yum list</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>安装并运行Docker <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># yum install docker-io –y</span><br><span class="line"># systemctl start docker</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>检查安装结果  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># docker info</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>基本用法 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># systemctl start docker     #运行Docker守护进程</span><br><span class="line"># systemctl stop docker      #停止Docker守护进程</span><br><span class="line"># systemctl restart docker   #重启Docker守护进程</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>常见命令</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">	 docker search mysql               #查询一个镜像</span><br><span class="line">	 docker images                     #查看本地的镜像</span><br><span class="line">	 docker rmi -f image的Id            #强制删除本地的一个镜像</span><br><span class="line">	 docker pull rabbitmq:management   #拉取一个镜像 </span><br><span class="line">	 docker run -d --name "xdclass_mq" -p 5672:5672 -p 15672:15672 rabbitmq:management #运行一个容器</span><br><span class="line">	 docker stop xdclass_mq # 停止一个容器</span><br><span class="line">	 docker start xdclass_mq #启动容器</span><br><span class="line">	 docker rm xdclass_mq # 移除一个容器 ，必须先停止</span><br><span class="line">	 docker ps -a #查看所有容器，包括没在运行的</span><br><span class="line">	 docker exec -it xzhclass_mq /bin/bash # 进入容器内部</span><br><span class="line">	```	</span><br><span class="line">	</span><br><span class="line"><span class="meta">#</span>  配置中心</span><br><span class="line"></span><br><span class="line">在实际的工程中，我们会去修改配置，如果有很多的服务我们一个个手工区修改配置太麻烦了，所以会使用配置中心，将所有的配置文件放在配置中心上，当服务启动的时候，会从配置中心去拉去配置。</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span># 远程仓库的搭建</span><br><span class="line">springcloud 的配置中心要配合git 使用，这里使用码云来搭建这个git ,在码云上注册一个新的工程，这里用product-service 作为演示，在git 上创建一个`product-service.yml` 文件，这里的文件名 要和你的yml 文件中，`spring.application.name `的一致，后面会再详细讲解</span><br><span class="line"></span><br><span class="line">**接下去我们在创建的文件中写入配置**</span><br><span class="line">```yml</span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    serviceUrl:</span><br><span class="line">      defaultZone: http://localhost:8761/eureka/</span><br><span class="line">server:</span><br><span class="line">  port: 8777</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: product-service</span><br><span class="line"></span><br><span class="line">sb: xzh</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>没错这里的配置就是我们<code>product-service</code> 的本地配置，等下<code>product-service</code>启动的时候讲会从远程git 上获取服务信息。</p>
+<h2 id="架设配置中心"><a href="#架设配置中心" class="headerlink" title="架设配置中心"></a>架设配置中心</h2><p>现在码云上的仓库已经架设好了，我们要在本地架设配置中心，新建一个项目<br>勾选上 <code>cloud-config-&gt;Config server</code> 和 <code>cloud-discovery-&gt;eureka-discovery</code><br>主要的就是在项目中加上如下依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>配置applicaiton.yml文件</strong><br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line">  	<span class="comment">#配置中心在注册中心中的服务名称，等下改造服务的时候要用</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">CONFIG-SERVER</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line">         <span class="comment"># 码云项目的地址</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://gitee.com/kiteff/test_configuration_center</span></span><br><span class="line"><span class="attr">          username:</span> <span class="string">账号</span></span><br><span class="line"><span class="attr">          password:</span> <span class="string">密码</span></span><br><span class="line"></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">9100</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka/</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>修改启动类</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableConfigServer</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoApplication</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实就是加了一个<code>@EnableConfigServer</code>注解<br>现在启动这个配置中心，访问 <a href="http://localhost:9100/product-service.yml" target="_blank" rel="noopener">http://localhost:9100/product-service.yml</a> 可以看到从码云上拉取的yml 配置文件</p>
+<h2 id="修改服务"><a href="#修改服务" class="headerlink" title="修改服务"></a>修改服务</h2><p><strong>加入依赖</strong><br>在pom 文件中引入<code>config-client</code>的依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;spring-cloud-config-client&lt;/artifactId&gt;</span><br><span class="line"> &lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>修改application.yml</strong><br>首先将a<code>pplication.yml</code> 改成 <code>bootstrap.yml</code>  这一步很重要，不然服务启动的时候还是会从本地去拿数据</p>
+<p>在这个 <code>bootstrap.yml</code> 文件中写入如下代码<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka/</span></span><br><span class="line"><span class="comment">#server:</span></span><br><span class="line"><span class="comment">#  port: 8771</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">product-service</span></span><br><span class="line">    <span class="comment">#指定从哪个配置中心拿</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      discovery:</span></span><br><span class="line">      <span class="comment">#这个id就是上面的配置中心的name</span></span><br><span class="line"><span class="attr">        service-id:</span> <span class="string">CONFIG-SERVER</span></span><br><span class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment"># label 是版本建议用这个</span></span><br><span class="line">      <span class="comment">#label:</span></span><br><span class="line">      <span class="comment">#profile:</span></span><br></pre></td></tr></table></figure></p>
+<p>这里还有几个配置<br>label 和 profile<br>label 是分支     比如你新建一个git分支dev 然后在再里面写不同环境下的yml文件<br>profile 是后缀  比如product-service-dev.yml,你要访问这个可以写 dev</p>
+<p>建议是用lable<br>举一个例子，比如现在用profile<br>仓库里有<code>product-service-dev.yml</code> <code>product-service-dev2.yml</code> 两个文件<br>程序去<code>product-service-dev.yml</code>获取一个参数 port 的数据，如果碰巧<code>product-service-dev.yml</code>没有这个参数，程序会继续去<code>product-service-dev2.yml</code>找！！！这样你可能会遇到很多莫名其妙的问题，所以还是用lable吧，干净整洁。</p>
+<p>全部配置完毕后启动项目，我可以尝试修改<code>git</code>上的 port 端口，可以看到服务每次启动的时候都会根据git 上的端口来启动</p>
+<h1 id="消息总线"><a href="#消息总线" class="headerlink" title="消息总线"></a>消息总线</h1><p>上一节我们实现了配置中心，但是这个还是不完善的，当修改了git仓库的一个参数的时候，必须重启整个服务才能重新 获取配置，那可不可以不重启的来获取这些数据呢，这就是消息总线了</p>
+<p>消息总线，其实就是用消息队列，在git仓库的配置发生变化的时候，通知到我们的服务提供者去读取新的配置。</p>
+<ul>
+<li><p>在服务提供者里加入依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在yml文件中加入配置</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  endpoints:</span></span><br><span class="line"><span class="attr">    web:</span></span><br><span class="line"><span class="attr">      exposure:</span></span><br><span class="line"><span class="attr">        include:</span> <span class="string">"*"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后在我们要动态更新的类上方加上 @RefreshScope 注解</p>
+</li>
+</ul>
+<p>这里在product-service 的controller上加上注解<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/api/v1/product"</span>)</span><br><span class="line"><span class="meta">@RefreshScope</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(getClass());</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ProductService productService;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;sb&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String sb;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到我们定义了一个新的变量，sb将会从git仓库读取他的配置，所以我们再在git 的 product-service.yml 文件中加一个配置sb</p>
+<p>现在这个配置文件就是<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka/</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8777</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">product-service</span></span><br><span class="line"></span><br><span class="line"><span class="attr">sb:</span> <span class="string">xzh</span></span><br></pre></td></tr></table></figure></p>
+<p>我们将service启动后，改变sb的值,再用<code>Post</code>形式访问<br><a href="http://localhost:8777/actuator/bus-refresh" target="_blank" rel="noopener">http://localhost:8777/actuator/bus-refresh</a><br>也就是就是这个product-service 下的这个路径 ，注意，一定要是post形式！！！<br>访问后，sb 的值就会重新从仓库拉取</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/28/springcloud/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">谢子豪</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础知识"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文代码"><span class="nav-number">1.1.</span> <span class="nav-text">本文代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是CAP"><span class="nav-number">1.2.</span> <span class="nav-text">什么是CAP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么CAP只能三选一"><span class="nav-number">1.3.</span> <span class="nav-text">为什么CAP只能三选一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册中心如何选择"><span class="nav-number">1.4.</span> <span class="nav-text">注册中心如何选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Eureka-Server-搭建"><span class="nav-number">2.</span> <span class="nav-text">Eureka Server 搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务提供者"><span class="nav-number">3.</span> <span class="nav-text">服务提供者</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建步骤"><span class="nav-number">3.1.</span> <span class="nav-text">搭建步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小技巧如何启动多个端口服务"><span class="nav-number">3.2.</span> <span class="nav-text">小技巧如何启动多个端口服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何关闭保护模式"><span class="nav-number">3.3.</span> <span class="nav-text">如何关闭保护模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务消费者"><span class="nav-number">4.</span> <span class="nav-text">服务消费者</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#两种模式的区别"><span class="nav-number">4.1.</span> <span class="nav-text">两种模式的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ribbon"><span class="nav-number">4.2.</span> <span class="nav-text">Ribbon</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Feign"><span class="nav-number">4.3.</span> <span class="nav-text">Feign</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#熔断和降级"><span class="nav-number">5.</span> <span class="nav-text">熔断和降级</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">5.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hystrix"><span class="nav-number">5.2.</span> <span class="nav-text">hystrix</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法一"><span class="nav-number">5.2.1.</span> <span class="nav-text">使用方法一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法二"><span class="nav-number">5.2.2.</span> <span class="nav-text">使用方法二</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Zuul-网关"><span class="nav-number">6.</span> <span class="nav-text">Zuul 网关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#全链路追踪"><span class="nav-number">7.</span> <span class="nav-text">全链路追踪</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装sleuth"><span class="nav-number">7.1.</span> <span class="nav-text">安装sleuth</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化-zipkin"><span class="nav-number">7.2.</span> <span class="nav-text">可视化 zipkin</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置中心"><span class="nav-number">8.</span> <span class="nav-text">配置中心</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装配置中心"><span class="nav-number">8.1.</span> <span class="nav-text">安装配置中心</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-使用"><span class="nav-number">9.</span> <span class="nav-text">Docker 使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker搭建"><span class="nav-number">9.1.</span> <span class="nav-text">Docker搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#架设配置中心"><span class="nav-number">9.2.</span> <span class="nav-text">架设配置中心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改服务"><span class="nav-number">9.3.</span> <span class="nav-text">修改服务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消息总线"><span class="nav-number">10.</span> <span class="nav-text">消息总线</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢子豪</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
