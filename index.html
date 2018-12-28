@@ -361,7 +361,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/springcloud/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/10/docker 打包 springboot/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谢子豪">
@@ -381,7 +381,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/04/11/springcloud/" class="post-title-link" itemprop="url">spring cloud 学习</a>
+                <a href="/2018/12/10/docker 打包 springboot/" class="post-title-link" itemprop="url">docker打包spring boot</a>
               
             
           </h1>
@@ -406,7 +406,7 @@
                 
               
 
-              <time title="创建时间：2018-04-11 22:22:21" itemprop="dateCreated datePublished" datetime="2018-04-11T22:22:21+08:00">2018-04-11</time>
+              <time title="创建时间：2018-12-10 23:08:47" itemprop="dateCreated datePublished" datetime="2018-12-10T23:08:47+08:00">2018-12-10</time>
             
 
             
@@ -423,7 +423,1080 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-28 15:39:35" itemprop="dateModified" datetime="2018-12-28T15:39:35+08:00">2018-12-28</time>
+                <time title="修改时间：2018-12-28 15:48:29" itemprop="dateModified" datetime="2018-12-28T15:48:29+08:00">2018-12-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>首先我们用idea 创建一个简单的springboot 项目，只需要加入web核心的依赖就行<br>下面是pom 文件要加入的内容<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">        &lt;docker.image.prefix&gt;xiezihao&lt;/docker.image.prefix&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;2.4.2&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;skipTests&gt;true&lt;/skipTests&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;3.3&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;source&gt;1.8&lt;/source&gt;</span><br><span class="line">                    &lt;target&gt;1.8&lt;/target&gt;</span><br><span class="line">                    &lt;encoding&gt;UTF-8&lt;/encoding&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;com.spotify&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;dockerfile-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;1.3.6&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;repository&gt;</span><br><span class="line">                        $&#123;docker.image.prefix&#125;/$&#123;project.artifactId&#125;</span><br><span class="line">                    &lt;/repository&gt;</span><br><span class="line">                    &lt;buildArgs&gt;</span><br><span class="line">                        &lt;JAR_FILE&gt;target/$&#123;project.build.finalName&#125;.jar&lt;/JAR_FILE&gt;</span><br><span class="line">                    &lt;/buildArgs&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br></pre></td></tr></table></figure></p>
+<p>docker.image.prefix 就是你打包完成后的镜像前缀。</p>
+<p>接下去在项目的根目录下新建一个<code>Dockerfile</code> 文件<br>,输入如下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM openjdk:8-jdk-alpine</span><br><span class="line">VOLUME /tmp</span><br><span class="line">ARG JAR_FILE</span><br><span class="line">COPY $&#123;JAR_FILE&#125; app.jar</span><br><span class="line">ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;,&quot;-jar&quot;,&quot;/app.jar&quot;]</span><br></pre></td></tr></table></figure></p>
+<p>打开cmd,进入到项目的根目录下<br>执行<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn install dockerfile:build --settings D:\code\maven\apache-maven-<span class="number">3.5</span>.0\conf\settingstaotao.xml</span><br></pre></td></tr></table></figure></p>
+<p>settings 后面是你指定的maven 配置文件的目录</p>
+<p>运行后，将会打包成images </p>
+<p>使用<code>docker images</code> 可以看到我们刚刚打包好的images<br>如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY                                         TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">xiezihao/dockerdemo                                latest              5cbacc1f72aa        8 minutes ago       103MB</span><br></pre></td></tr></table></figure></p>
+<p>然后我们利用这个images  运行一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 7777:8080  --name demodocker  5cbacc1f72aa</span><br></pre></td></tr></table></figure></p>
+<p>之后我们利用<br><code>docker logs -f   demodocker</code><br>可以看下启动的日志,如果启动没有问题，那么我们可以在<br>docker ps 中看到我们的容器，这个时候说明我们打包的iamge 是没有问题的。</p>
+<p>我们可以利用<br>docker exec -it  b5c6d7064c08 /bin/sh<br>或者<br>docker exec -it  b5c6d7064c08 /bin/bash<br>进入我们的容器中</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/25/Spring知识学习/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢子豪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小X的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/25/Spring知识学习/" class="post-title-link" itemprop="url">Spring知识学习</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-25 12:25:08" itemprop="dateCreated datePublished" datetime="2018-11-25T12:25:08+08:00">2018-11-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-28 15:51:41" itemprop="dateModified" datetime="2018-12-28T15:51:41+08:00">2018-12-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/java开发/" itemprop="url" rel="index"><span itemprop="name">java开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近复习了一下spring 的技术知识<br>@[toc]</p>
+<h1 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h1><p>动态代理是spring 的一个底层核心技术，一般通过一下的3个步骤实现<br>1.一个接口<br>2.接口的实现类<br>3.动态代理类</p>
+<p>一个简单的例子，新建一个Person的接口，然后实现一个Man 的类，在创建一个动态代理类进行代理，在Man 的输方法前后加上输出当前的系统时间</p>
+<p><strong>Person.class</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">hello</span><span class="params">(String name)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Man.class</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">implements</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"你好 我是"</span> + name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>动态代理类</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Person person;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DynamicProxy</span><span class="params">(Person person)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.person = person;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> proxy 被代理的类</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> method 方法</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args 参数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Throwable</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"开始"</span> + System.currentTimeMillis());</span><br><span class="line">        method.invoke(person, args);</span><br><span class="line">        System.out.println(<span class="string">"结束"</span> + System.currentTimeMillis());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>调用类</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicClient</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person p = <span class="keyword">new</span> Man();</span><br><span class="line">        <span class="comment">//生成了一个动态代理类</span></span><br><span class="line">        Person proxyPerson = (Person) </span><br><span class="line">        Proxy.newProxyInstance(p.getClass().getClassLoader(), p.getClass().getInterfaces(), <span class="keyword">new</span> DynamicProxy(p));</span><br><span class="line">        proxyPerson.hello(<span class="string">"谢子豪"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="Spring-简单的Bean-例子"><a href="#Spring-简单的Bean-例子" class="headerlink" title="Spring 简单的Bean 例子"></a>Spring 简单的Bean 例子</h1><p>定义一个<code>Car</code>的类，其中有个一个 版本(brand)成员变量，然后通过spring 配置文件将这个参数的属性进行注入<br><strong>Car.class</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String brand;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBrand</span><span class="params">(String brand)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.brand = brand;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(brand + <span class="string">"牌子的汽车在跑"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>applicationContext.xml</strong><br>这个配置文件就是spring 的配置文件，我这里放在了IDEA 的resource文件夹下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">	http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">	http://www.springframework.org/schema/context/spring-context-2.5.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"car"</span> <span class="attr">class</span>=<span class="string">"springDemo.Car"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"brand"</span> <span class="attr">value</span>=<span class="string">"奔驰"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这里的id可以随便取名字，但是要唯一最好和类名一致,Class是类的具体实现<br>property里是类的变量 name 是变量名 value 是注入的值</p>
+<p><strong>运行类</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ApplicationContext app = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"classpath:applicationContext.xml"</span>);</span><br><span class="line">        Car car = (Car) app.getBean(<span class="string">"car"</span>);</span><br><span class="line">        car.run();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果： 奔驰牌子的汽车在跑</p>
+<h1 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h1><p>spring 支持自动装配<br>有以下4种</p>
+<ol>
+<li>no – 缺省情况下，自动配置是通过“ref”属性手动设定 </li>
+<li>byName – 根据属性名称自动装配。如果一个bean的名称和其他bean属性的名称是一样的，将会自装配它。<ol start="3">
+<li>byType – 按数据类型自动装配。如果一个bean的数据类型是用其它bean属性的数据类型，兼容并自动装配它。</li>
+<li>constructor – 在构造函数参数的byType方式。 </li>
+<li>autodetect – 如果找到默认的构造函数，使用“自动装配用构造”; 否则，使用“按类型自动装配”</li>
+</ol>
+</li>
+</ol>
+<p>这里自定一个MyCar 类，然后顶一个Person类，Person 有一个变量是MyCar,然后通过5种方式去注入<br><strong>MyCar</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyCar</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String brand = <span class="string">"特斯拉"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getBrand</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> brand;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Person</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> MyCar myCar;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMyCar</span><span class="params">(MyCar myCar)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.myCar = myCar;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">driver</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"我在开&gt;"</span> + myCar.getBrand());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>自动注入要加上 <code>&lt;context:annotation-config/&gt;</code> 在spring的XML文件中</p>
+<h2 id="no"><a href="#no" class="headerlink" title="no"></a>no</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"person"</span> <span class="attr">class</span>=<span class="string">"autoBean.Person"</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"car"</span> <span class="attr">ref</span>=<span class="string">"myCar"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myCar"</span> <span class="attr">class</span>=<span class="string">"autoBean.MyCar"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>no类型必须手动指定ref 去访问哪个类</p>
+<h2 id="name"><a href="#name" class="headerlink" title="name"></a>name</h2><p>spring 可以通过name 去自动寻找对应的bean 注入<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id="person" class="autoBean.Person" autowire="byName"&gt;&lt;/bean&gt;</span><br><span class="line">&lt;bean id="myCar" class="autoBean.MyCar"&gt;&lt;/bean&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这里要注意的是 被装配的bean 的id 必须和参数的名字一致，大小写也是</p>
+<h2 id="Type"><a href="#Type" class="headerlink" title="Type"></a>Type</h2> <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"person"</span> <span class="attr">class</span>=<span class="string">"autoBean.Person"</span> <span class="attr">autowire</span>=<span class="string">"byType"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myCar"</span> <span class="attr">class</span>=<span class="string">"autoBean.MyCar"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> type 会根据要注入的对象的类型去寻找合适的bean </p>
+<h2 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h2><p>上面的我们都利用了 set方法，现在我们把set 方法去掉，变成 一个构造方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> MyCar myCar;</span><br><span class="line">	<span class="comment">//构造方法注入</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(MyCar myCar)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.myCar = myCar;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">driver</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"我在开&gt;"</span> + myCar.getBrand());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面是xml文件<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"person"</span> <span class="attr">class</span>=<span class="string">"autoBean.Person"</span> <span class="attr">autowire</span>=<span class="string">"constructor"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">"myCar"</span>&gt;</span><span class="tag">&lt;/<span class="name">ref</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">constructor-arg</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myCar"</span> <span class="attr">class</span>=<span class="string">"autoBean.MyCar"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="autodetect"><a href="#autodetect" class="headerlink" title="autodetect"></a>autodetect</h2><p>通过自动检测自动装配<br>就是上面构造器 和  get 方式的结合，如果有 构造器就按照构造器注入<br>没有就用get<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"person"</span> <span class="attr">class</span>=<span class="string">"autoBean.Person"</span> <span class="attr">autowire</span>=<span class="string">"autodetect"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myCar"</span> <span class="attr">class</span>=<span class="string">"autoBean.MyCar"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Autowired-注解"><a href="#Autowired-注解" class="headerlink" title="@Autowired 注解"></a>@Autowired 注解</h2><p>使用这个注解首先要在xml文件中加入<br><code>&lt;context:annotation-config/&gt;</code></p>
+<p>现在我们改造一下Person<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> MyCar myCar;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">driver</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"我在开&gt;"</span> + myCar.getBrand());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>是的更加简洁没有set 方法，也没有构造方法,通过Autowired 自动注入</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:annotation-config</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"person"</span> <span class="attr">class</span>=<span class="string">"autoBean.Person"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myCar"</span> <span class="attr">class</span>=<span class="string">"autoBean.MyCar"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>默认情况下，@Autowired将执行相关检查，以确保属性已经装配正常。当Spring无法找到匹配的Bean装配，它会抛出异常。要解决这个问题，可以通过 @Autowired 的“required”属性设置为false来禁用此检查功能。<br>也就是使用 <code>@Autowired(required = false)</code></p>
+<h2 id="Qualifier-注解"><a href="#Qualifier-注解" class="headerlink" title="@Qualifier  注解"></a>@Qualifier  注解</h2><p>当我们在xml里指定两个类型相同的bean 的时候Spring 就会犯迷糊，不知道用哪个bean ，就会报错<br>将xml修改如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"person"</span> <span class="attr">class</span>=<span class="string">"autoBean.Person"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myCar1"</span> <span class="attr">class</span>=<span class="string">"autoBean.MyCar"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"brand"</span> <span class="attr">value</span>=<span class="string">"宝马"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myCar2"</span> <span class="attr">class</span>=<span class="string">"autoBean.MyCar"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"brand"</span> <span class="attr">value</span>=<span class="string">"奔驰"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>修改一下我们的Mycar 加上一个 get 方法，因为这里要注入 brand 为了方便区分<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyCar</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String brand;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBrand</span><span class="params">(String brand)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.brand = brand;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getBrand</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> brand;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后改造Person<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Qualifier</span>(<span class="string">"myCar2"</span>)</span><br><span class="line">  <span class="meta">@Autowired</span>(required = <span class="keyword">false</span>)</span><br><span class="line">  <span class="keyword">private</span> MyCar myCar;</span><br></pre></td></tr></table></figure></p>
+<p>运行输出  我在开&gt;奔驰</p>
+<h1 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h1><p>上面讲解了spring 的 DI (依赖注入)，现在讲一下spring 的AOP<br>spring 的 AOP 有如下3个关键词</p>
+<p>advice :通知，在方法的前后或者异常时执行动作<br>pointcut：切入点，指明哪些方法要被拦截<br>advisor: 分组，将adive 和 pointcut 分成一个单元，并把它传递到代理工厂对象。</p>
+<p>首先说一下 advice ,新建一个类</p>
+<ol>
+<li>在方法执行前<br>实现 MethodBeforeAdvice 接口，重写before方法 实现 MethodBeforeAdvice 接口，重写before方法 </li>
+<li>方法执行后<br>实现AfterReturningAdvice 接口，重写afterReturning 方法</li>
+<li>方法执行前后<br>实现 MethodInterceptor 接口，重写invoke 方法</li>
+<li>抛出异常后<br>实现 ThrowsAdvice 接口，重写afterThrowing方法</li>
+</ol>
+<p>下面通过一个例子来看：<br>我们定义一个Bus类，然后定义两个输出的方法，通过spring aop 指定其中的一个方法 在输出前，输出一句话<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bus</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"你们好 我是一辆公共汽车"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"我跑了起来"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面定义 <code>advice</code>:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SayHelloBeforeMethod</span> <span class="keyword">implements</span> <span class="title">MethodBeforeAdvice</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">(Method method, Object[] objects, Object o)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"下面看汽车的表演"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面定义 xml 文件，通过正则表达式匹配，让run方法前输出一句话<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--注入我们定义的两个类--&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sayHelloBeforeMethod"</span> <span class="attr">class</span>=<span class="string">"aopGo.SayHelloBeforeMethod"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"bus"</span> <span class="attr">class</span>=<span class="string">"aopGo.Bus"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--定义adervisor 里面写正则--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"busAdervisor"</span> <span class="attr">class</span>=<span class="string">"org.springframework.aop.support.RegexpMethodPointcutAdvisor"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"patterns"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">value</span>&gt;</span>.*run.*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--如果匹配成功调用哪一个advice--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"advice"</span> <span class="attr">ref</span>=<span class="string">"sayHelloBeforeMethod"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--定义代理bean--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"busProxy"</span> <span class="attr">class</span>=<span class="string">"org.springframework.aop.framework.ProxyFactoryBean"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"target"</span> <span class="attr">ref</span>=<span class="string">"bus"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"interceptorNames"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">value</span>&gt;</span>busAdervisor<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="AOP-自动代理"><a href="#AOP-自动代理" class="headerlink" title="AOP 自动代理"></a>AOP 自动代理</h3><p>在上面的方法中我们每创建一个AOP 就要创建一个代理类，很不好。<br>spring 有如下几种办法来处理</p>
+<h4 id="BeanNameAutoProxyCreator"><a href="#BeanNameAutoProxyCreator" class="headerlink" title="BeanNameAutoProxyCreator"></a>BeanNameAutoProxyCreator</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator"</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"beanNames"</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">value</span>&gt;</span>*bus<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"interceptorNames"</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">value</span>&gt;</span>busAdervisor<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>将原来的代理bean 换成这个，然后在程序中直接<br>Bus bus = (Bus) applicationContext.getBean(“bus”);<br>用对象原来的bean 就可以了</p>
+<h3 id="DefaultAdvisorAutoProxyCreator"><a href="#DefaultAdvisorAutoProxyCreator" class="headerlink" title="DefaultAdvisorAutoProxyCreator"></a>DefaultAdvisorAutoProxyCreator</h3><p>这种方法更加简单直接一条配置<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="自动扫描"><a href="#自动扫描" class="headerlink" title="自动扫描"></a>自动扫描</h1><p>自动扫描可以自动去注册bean<br>xml 上加上这一句<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"zidongsaomiao"</span>&gt;</span><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>package 是要去扫描的包<br>然后在我们的bean上加上 @Component<br>然后直接在<br>Women women = (Women)applicationContext.getBean(“women”);<br>women 就是类名<br>可以使用@Component(value = “demo”) 去自定义名称</p>
+<p>同时还可以对这些扫描进行过滤</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;context:component-scan base-<span class="keyword">package</span>=<span class="string">"com.yiibai"</span> &gt;</span><br><span class="line"></span><br><span class="line">		&lt;context:include-filter type=<span class="string">"regex"</span> </span><br><span class="line">                       expression=<span class="string">"com.yiibai.customer.dao.*DAO.*"</span> /&gt;</span><br><span class="line"></span><br><span class="line">		&lt;context:include-filter type=<span class="string">"regex"</span> </span><br><span class="line">                       expression=<span class="string">"com.yiibai.customer.services.*Service.*"</span> /&gt;</span><br><span class="line"></span><br><span class="line">	&lt;/context:component-scan&gt;</span><br></pre></td></tr></table></figure>
+<p>不包含<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;context:component-scan base-<span class="keyword">package</span>=<span class="string">"com.yiibai.customer"</span> &gt;</span><br><span class="line">		&lt;context:exclude-filter type=<span class="string">"annotation"</span> </span><br><span class="line">			expression=<span class="string">"org.springframework.stereotype.Service"</span> /&gt;		</span><br><span class="line">	&lt;/context:component-scan&gt;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/23/springBean 生命周期/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢子豪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小X的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/23/springBean 生命周期/" class="post-title-link" itemprop="url">SpringBean生命周期</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-23 08:58:52" itemprop="dateCreated datePublished" datetime="2018-11-23T08:58:52+08:00">2018-11-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-28 15:51:07" itemprop="dateModified" datetime="2018-12-28T15:51:07+08:00">2018-12-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/java开发/" itemprop="url" rel="index"><span itemprop="name">java开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="SpringBean-的生命周期大致如下图所示"><a href="#SpringBean-的生命周期大致如下图所示" class="headerlink" title="SpringBean 的生命周期大致如下图所示"></a>SpringBean 的生命周期大致如下图所示</h2><p><img src="https://img-blog.csdnimg.cn/20181122190607587.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqc3h4emg=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>下面对这张图做一下详细的解释</li>
+</ul>
+<ol>
+<li>实例化： 就是我们 <code>new</code> 一个对象的时候</li>
+<li>调用反射设置属性的值：使用依赖注入，Spring按照Bean定义信息配置Bean所有属性</li>
+<li>调用 Aware 方法： 如果实现了Aware 相关的接口，比如  <code>org.springframework.beans.BeanNameAware</code> ，这个接口实现后，spring 可以根据配置文件的 的 id ,和对应的值，来给对象赋值。相同的还有<code>org.springframework.beans.factory.BeanFactoryAware</code> 只不过他返回的是一个工厂。</li>
+<li>如果 bean 实现了 <code>org.springframework.beans.factory.config.BeanPostProcessors</code> ，那么会调用他的<code>postProcessBeforeInitialization（）</code> 方法</li>
+<li>如果Bean定义文件中定义init-method，那么会调用bean的<code>initBean()</code>方法。</li>
+<li>同上述步骤4，如果实现了 BeanPostProcessors 接口那么会调用<code>postProcessAfterInitialization（）</code>方法，到这一步为止，bean 已经创建完毕</li>
+<li>当容器关闭的时候 如果实现了 <code>DisposableBean</code>方法,会调用 <code>destroy()</code> 方法。</li>
+<li>最后如果配置了destroy-method属性，会自动调用其配置的销毁方法</li>
+</ol>
+<p>这里有一篇讲的很好的文章：<a href="https://www.cnblogs.com/kenshinobiy/p/4652008.html" target="_blank" rel="noopener">https://www.cnblogs.com/kenshinobiy/p/4652008.html</a>   </p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/31/Spring 事务/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢子豪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小X的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/10/31/Spring 事务/" class="post-title-link" itemprop="url">Spring事务</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-31 15:55:01" itemprop="dateCreated datePublished" datetime="2018-10-31T15:55:01+08:00">2018-10-31</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-28 15:50:13" itemprop="dateModified" datetime="2018-12-28T15:50:13+08:00">2018-12-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/java开发/" itemprop="url" rel="index"><span itemprop="name">java开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h1><h2 id="springboot"><a href="#springboot" class="headerlink" title="springboot"></a>springboot</h2><p>springboot比较简单，直接在输入加上<code>@Transactional</code>注解就可以</p>
+<h2 id="spring-mvc"><a href="#spring-mvc" class="headerlink" title="spring mvc"></a>spring mvc</h2><ol>
+<li><p>在spring配置文件中引入<a href="tx:" target="_blank" rel="noopener">tx:</a>命名空间</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag"> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag"> <span class="attr">xmlns:tx</span>=<span class="string">"http://www.springframework.org/schema/tx"</span></span></span><br><span class="line"><span class="tag"> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string"> http://www.springframework.org/schema/beans/spring-beans-2.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string"> http://www.springframework.org/schema/tx</span></span></span><br><span class="line"><span class="tag"><span class="string"> http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> 主要是要引入那几个/tx 的命名空间</p>
+</li>
+<li><p>设置拥有@Transactional 注解的bean 自动配置申明支持事务</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 事务管理器配置, Hibernate单数据源事务 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"defaultTransactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.orm.hibernate3.HibernateTransactionManager"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sessionFactory"</span> <span class="attr">ref</span>=<span class="string">"sessionFactory"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 使用annotation定义事务 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">"defaultTransactionManager"</span> <span class="attr">proxy-target-class</span>=<span class="string">"true"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>3.在接口或类的声明处 ,写一个@Transactional</p>
+<p>   要是只在接口上写, 接口的实现类就会继承下来、接口的实现类的具体方法,可以覆盖类声明处的设置</p>
+<h1 id="事务的传播级别"><a href="#事务的传播级别" class="headerlink" title="事务的传播级别"></a>事务的传播级别</h1><p>事务可以通过形如<br>@Transactional(propagation=Propagation.REQUIRED)<br>设置传播级别 一共6级</p>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REQUIED</td>
+<td>如果有事务，加入事务，没有就新建一个事务</td>
+</tr>
+<tr>
+<td>NOT_SUPPORTED</td>
+<td>不为这个方法开启事务</td>
+</tr>
+<tr>
+<td>REQUIRES_NEW</td>
+<td>不管是否存在事务,都创建一个新的事务,原来的挂起,新的执行完毕,继续执行老的事务</td>
+</tr>
+<tr>
+<td>MANDATORY</td>
+<td>必须在一个已有的事务中执行,否则抛出异常</td>
+</tr>
+<tr>
+<td>NEVER</td>
+<td>必须在一个没有的事务中执行,否则抛出异</td>
+</tr>
+<tr>
+<td>SUPPORTS</td>
+<td>如果其他bean调用这个方法,在其他bean中声明事务,那就用事务.如果其他bean没有声明事务,那就不用事务</td>
+</tr>
+</tbody>
+</table>
+<h1 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h1><table>
+<thead>
+<tr>
+<th>级别</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>READ_UNCOMMITTED</td>
+<td>读取未提交，可能出现脏读、不可重复读、幻读</td>
+</tr>
+<tr>
+<td>READ_COMMITED</td>
+<td>读取已提交数据，可能出现不可重复读、幻读</td>
+</tr>
+<tr>
+<td>REPEATABLE_READ</td>
+<td>可重复读，可能出现幻读</td>
+</tr>
+<tr>
+<td>SERIALIZABLE</td>
+<td>串行化，没有问题</td>
+</tr>
+</tbody>
+</table>
+<h1 id="对几种不良情况的解释"><a href="#对几种不良情况的解释" class="headerlink" title="对几种不良情况的解释"></a>对几种不良情况的解释</h1><p>1、脏读：事务A读取了事务B更新的数据，然后B回滚操作，那么A读取到的数据是脏数据</p>
+<p>　　2、不可重复读：事务 A 多次读取同一数据，事务 B 在事务A多次读取的过程中，对数据作了更新并提交，导致事务A多次读取同一数据时，结果 不一致。</p>
+<p>　　3、幻读：系统管理员A将数据库中所有学生的成绩从具体分数改为ABCDE等级，但是系统管理员B就在这个时候插入了一条具体分数的记录，当系统管理员A改结束后发现还有一条记录没有改过来，就好像发生了幻觉一样，这就叫幻读。</p>
+<p>　　小结：不可重复读的和幻读很容易混淆，不可重复读侧重于修改，幻读侧重于新增或删除。解决不可重复读的问题只需锁住满足条件的行，解决幻读需要锁表</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/11/java类加载机制和自定义类加载器/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢子豪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小X的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/10/11/java类加载机制和自定义类加载器/" class="post-title-link" itemprop="url">java类加载机制和自定义类加载器</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-11 14:45:54" itemprop="dateCreated datePublished" datetime="2018-10-11T14:45:54+08:00">2018-10-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-28 15:49:37" itemprop="dateModified" datetime="2018-12-28T15:49:37+08:00">2018-12-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/java开发/" itemprop="url" rel="index"><span itemprop="name">java开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="类加载顺序"><a href="#类加载顺序" class="headerlink" title="类加载顺序"></a>类加载顺序</h1><p><img src="https://img-blog.csdn.net/20181011141238115?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqc3h4emg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"></p>
+<p>上图所示的是类加载的顺序，按照大的顺序可以分为加载、链接、初始化<br>其中链接又可以分成验证、准备、解析三个步骤</p>
+<p><strong>加载</strong></p>
+<p>1.将类的class文件读入到内存中</p>
+<p>加载类文件的方式有： 1. 本机文件加载 2.jar包加载 3.网络加载 4.源文件动态编译加载</p>
+<p>2.创建一个java.lang.class文件</p>
+<p><strong>连接</strong></p>
+<p>1.验证：类结构是否正确，是否与其他类协调一致</p>
+<p>2.准备：为类分配内存，并设置默认初始值</p>
+<p>3.解析：将二进制文件的符号引用替换成直接引用</p>
+<p><strong>初始化</strong></p>
+<p>对类的变量进行初始化<br>使用静态代码块初始化、申明类变量初始值</p>
+<ul>
+<li><strong>子类和父类的关系</strong><br>  父类的静态变量<br>  父类的静态代码块<br>  子类的静态变量<br>  子类的静态代码块<br>  父类非静态变量<br>  父类非静态代码块<br>  父类构造方法<br>  子类非静态变量<br>  子类非静态代码块<br>  子类构造方法</li>
+</ul>
+<h1 id="双亲委派模式"><a href="#双亲委派模式" class="headerlink" title="双亲委派模式"></a>双亲委派模式</h1><p><img src="https://img-blog.csdn.net/20181011141925636?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqc3h4emg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"><br>java 里有3中默认的类加载器<br>|加载器种类|解释|<br>|—|:—|<br>|启动类加载器|从JAVA_HOME/lib 路径下找|<br>|扩展类架子器|从JAVA_HOME/lib/ext 路径下找|<br>|应用程序类加载器|从classpath 路径下找|<br>|自定义加载器|我们程序员自己定义的加载器|</p>
+<p>new 一个类的时候 ，首先jvm会去看下当前类加载器有没有父类的加载器，有就把这个加载请求交给父类，一直如此，直到到达最顶层的启动类加载器，然后，在一级一级的往下看能不能加载，能加载就加载，不能就把这个加载任务交给子类</p>
+<p>举一个例子，当我new Dog() 的时候</p>
+<ol>
+<li>首先这个请求会交给应用程序类加载器,然后会被交给扩展类加载器</li>
+<li>扩展类加载器会将这个请求交给启动类加载器</li>
+<li>启动类加载器开始尝试去<code>JAVA_HOME/lib</code>里找，没有，交还给扩展类加载器</li>
+<li>扩展类加载器从<code>JAVA_HOME/lib/ext</code> 里找，没有交还给应用程序类加载器</li>
+<li>应用程序类从classpath 里去找，没有交给自定义加载器</li>
+<li>要是自定义加载器还没有就抛出异常<br>上述的过程只要有一个加载器加载到了就不再下放了。</li>
+</ol>
+<ul>
+<li><strong>双亲委派机制的优势</strong><br>  可以避免java的核心api 被篡改，比如你自定义了一个String 类，这个类是无效的，他绝对不会被加载，这样有效避免了类加载导致的安全问题</li>
+</ul>
+<h1 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h1><p>接下去我们实现一个自定义的类加载器，利用这个加载器来加载一个类</p>
+<ul>
+<li><p>首先简单的构建一个类</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  这是一个很简单的类，我们把它编译成class 文件放在<code>d:</code>盘的根目录下</p>
+</li>
+<li><p>构建我们自己的类加载器</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyLoader</span> <span class="keyword">extends</span> <span class="title">ClassLoader</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt; findClass(String name) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        File file = <span class="keyword">new</span> File(<span class="string">"D:/Dog.class"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(file);</span><br><span class="line">            ByteArrayOutputStream outputStream = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">            <span class="comment">//每次读取的大小是4kb</span></span><br><span class="line">            <span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span> * <span class="number">1024</span>];</span><br><span class="line">            <span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span> ((n = fileInputStream.read(b)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                outputStream.write(b, <span class="number">0</span>, n);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//将Dog.class类读取到byte数组里</span></span><br><span class="line">            <span class="keyword">byte</span>[] classByteArray = outputStream.toByteArray();</span><br><span class="line">            <span class="comment">//调用defineClass 将byte 加载成class</span></span><br><span class="line">            Class&lt;?&gt; aClass = <span class="keyword">this</span>.defineClass(name, classByteArray, <span class="number">0</span>, classByteArray.length);</span><br><span class="line">            <span class="keyword">return</span> aClass;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.findClass(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>上面的代码中，我们自定义了一个类让他去继承`ClassLoader `，然后重写其中的`findClass`方法，我们重写后的逻辑就是自己的指定的目录，也就是`d盘`下找到`Dog.class`文件 然后读取到一个byte数组中，然后调用`defineClass` 加载这个类。
+</code></pre><ul>
+<li><p>下面用一个简单的程序测试下</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        MyLoader myLoader = <span class="keyword">new</span> MyLoader();</span><br><span class="line">        Class&lt;?&gt; aClass = Class.forName(<span class="string">"com.example.demo.Dog"</span>, <span class="keyword">true</span>, myLoader);</span><br><span class="line">        Object o = aClass.newInstance();</span><br><span class="line">        System.out.println(o);</span><br><span class="line">        System.out.println(o.getClass().getClassLoader());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  这里的Class.forname 和以前不一样，我们后面对了两个参数，true代表类重新加载，myLoader就是我们自定义的类加载器</p>
+<p>  运行后显示：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">com.example.demo.Dog@2e817b38</span><br><span class="line">com.example.demo.MyLoader@4d405ef7</span><br></pre></td></tr></table></figure>
+<p>  可以看到已经使用了我们自定义的类加载器。</p>
+</li>
+</ul>
+<ul>
+<li>这里有一点要注意，就是个别编译器比较智能，如我使用的idea，他们会自定编译，直接把你的java文件编译成class 放入classpath下去了，所以在运行请务必吧这个文件删除，如果你用的是idea 把整个target删除就行</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/11/springcloud/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢子豪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小X的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/10/11/springcloud/" class="post-title-link" itemprop="url">spring cloud 学习</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-11 09:10:27" itemprop="dateCreated datePublished" datetime="2018-10-11T09:10:27+08:00">2018-10-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-28 15:43:39" itemprop="dateModified" datetime="2018-12-28T15:43:39+08:00">2018-12-28</time>
               
             
           </span>
@@ -877,7 +1950,7 @@ public class DemoApplication {
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -892,7 +1965,9 @@ public class DemoApplication {
                     
                       
                     
-                    <span class="site-state-item-count">1</span>
+                      
+                    
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">分类</span>
                   
                 </div>

@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="类加载顺序 上图所示的是类加载的顺序，按照大的顺序可以分为加载、链接、初始化其中链接又可以分成验证、准备、解析三个步骤 加载 1.将类的class文件读入到内存中 加载类文件的方式有： 1. 本机文件加载 2.jar包加载 3.网络加载 4.源文件动态编译加载 2.创建一个java.lang.class文件 连接 1.验证：类结构是否正确，是否与其他类协调一致 2.准备：为类分配内存，并设置默认初">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java类加载机制和自定义类加载器">
+<meta property="og:url" content="http://yoursite.com/2018/10/11/java类加载机制和自定义类加载器/index.html">
+<meta property="og:site_name" content="小X的博客">
+<meta property="og:description" content="类加载顺序 上图所示的是类加载的顺序，按照大的顺序可以分为加载、链接、初始化其中链接又可以分成验证、准备、解析三个步骤 加载 1.将类的class文件读入到内存中 加载类文件的方式有： 1. 本机文件加载 2.jar包加载 3.网络加载 4.源文件动态编译加载 2.创建一个java.lang.class文件 连接 1.验证：类结构是否正确，是否与其他类协调一致 2.准备：为类分配内存，并设置默认初">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img-blog.csdn.net/20181011141238115?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqc3h4emg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/20181011141925636?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqc3h4emg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:updated_time" content="2018-12-28T07:49:37.479Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java类加载机制和自定义类加载器">
+<meta name="twitter:description" content="类加载顺序 上图所示的是类加载的顺序，按照大的顺序可以分为加载、链接、初始化其中链接又可以分成验证、准备、解析三个步骤 加载 1.将类的class文件读入到内存中 加载类文件的方式有： 1. 本机文件加载 2.jar包加载 3.网络加载 4.源文件动态编译加载 2.创建一个java.lang.class文件 连接 1.验证：类结构是否正确，是否与其他类协调一致 2.准备：为类分配内存，并设置默认初">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20181011141238115?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqc3h4emg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/11/java类加载机制和自定义类加载器/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>java类加载机制和自定义类加载器 | 小X的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小X的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-分布式">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/分布式/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>分布式</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-java开发">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/java开发/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>java开发</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-并发编程">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/并发编程/" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>并发编程</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-jdk源码">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/jdk源码/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>jdk源码</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/11/java类加载机制和自定义类加载器/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢子豪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小X的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">java类加载机制和自定义类加载器
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-11 14:45:54" itemprop="dateCreated datePublished" datetime="2018-10-11T14:45:54+08:00">2018-10-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-28 15:49:37" itemprop="dateModified" datetime="2018-12-28T15:49:37+08:00">2018-12-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/java开发/" itemprop="url" rel="index"><span itemprop="name">java开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="类加载顺序"><a href="#类加载顺序" class="headerlink" title="类加载顺序"></a>类加载顺序</h1><p><img src="https://img-blog.csdn.net/20181011141238115?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqc3h4emg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"></p>
+<p>上图所示的是类加载的顺序，按照大的顺序可以分为加载、链接、初始化<br>其中链接又可以分成验证、准备、解析三个步骤</p>
+<p><strong>加载</strong></p>
+<p>1.将类的class文件读入到内存中</p>
+<p>加载类文件的方式有： 1. 本机文件加载 2.jar包加载 3.网络加载 4.源文件动态编译加载</p>
+<p>2.创建一个java.lang.class文件</p>
+<p><strong>连接</strong></p>
+<p>1.验证：类结构是否正确，是否与其他类协调一致</p>
+<p>2.准备：为类分配内存，并设置默认初始值</p>
+<p>3.解析：将二进制文件的符号引用替换成直接引用</p>
+<p><strong>初始化</strong></p>
+<p>对类的变量进行初始化<br>使用静态代码块初始化、申明类变量初始值</p>
+<ul>
+<li><strong>子类和父类的关系</strong><br>  父类的静态变量<br>  父类的静态代码块<br>  子类的静态变量<br>  子类的静态代码块<br>  父类非静态变量<br>  父类非静态代码块<br>  父类构造方法<br>  子类非静态变量<br>  子类非静态代码块<br>  子类构造方法</li>
+</ul>
+<h1 id="双亲委派模式"><a href="#双亲委派模式" class="headerlink" title="双亲委派模式"></a>双亲委派模式</h1><p><img src="https://img-blog.csdn.net/20181011141925636?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqc3h4emg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="在这里插入图片描述"><br>java 里有3中默认的类加载器<br>|加载器种类|解释|<br>|—|:—|<br>|启动类加载器|从JAVA_HOME/lib 路径下找|<br>|扩展类架子器|从JAVA_HOME/lib/ext 路径下找|<br>|应用程序类加载器|从classpath 路径下找|<br>|自定义加载器|我们程序员自己定义的加载器|</p>
+<p>new 一个类的时候 ，首先jvm会去看下当前类加载器有没有父类的加载器，有就把这个加载请求交给父类，一直如此，直到到达最顶层的启动类加载器，然后，在一级一级的往下看能不能加载，能加载就加载，不能就把这个加载任务交给子类</p>
+<p>举一个例子，当我new Dog() 的时候</p>
+<ol>
+<li>首先这个请求会交给应用程序类加载器,然后会被交给扩展类加载器</li>
+<li>扩展类加载器会将这个请求交给启动类加载器</li>
+<li>启动类加载器开始尝试去<code>JAVA_HOME/lib</code>里找，没有，交还给扩展类加载器</li>
+<li>扩展类加载器从<code>JAVA_HOME/lib/ext</code> 里找，没有交还给应用程序类加载器</li>
+<li>应用程序类从classpath 里去找，没有交给自定义加载器</li>
+<li>要是自定义加载器还没有就抛出异常<br>上述的过程只要有一个加载器加载到了就不再下放了。</li>
+</ol>
+<ul>
+<li><strong>双亲委派机制的优势</strong><br>  可以避免java的核心api 被篡改，比如你自定义了一个String 类，这个类是无效的，他绝对不会被加载，这样有效避免了类加载导致的安全问题</li>
+</ul>
+<h1 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h1><p>接下去我们实现一个自定义的类加载器，利用这个加载器来加载一个类</p>
+<ul>
+<li><p>首先简单的构建一个类</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  这是一个很简单的类，我们把它编译成class 文件放在<code>d:</code>盘的根目录下</p>
+</li>
+<li><p>构建我们自己的类加载器</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyLoader</span> <span class="keyword">extends</span> <span class="title">ClassLoader</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt; findClass(String name) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        File file = <span class="keyword">new</span> File(<span class="string">"D:/Dog.class"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(file);</span><br><span class="line">            ByteArrayOutputStream outputStream = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">            <span class="comment">//每次读取的大小是4kb</span></span><br><span class="line">            <span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span> * <span class="number">1024</span>];</span><br><span class="line">            <span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span> ((n = fileInputStream.read(b)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                outputStream.write(b, <span class="number">0</span>, n);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//将Dog.class类读取到byte数组里</span></span><br><span class="line">            <span class="keyword">byte</span>[] classByteArray = outputStream.toByteArray();</span><br><span class="line">            <span class="comment">//调用defineClass 将byte 加载成class</span></span><br><span class="line">            Class&lt;?&gt; aClass = <span class="keyword">this</span>.defineClass(name, classByteArray, <span class="number">0</span>, classByteArray.length);</span><br><span class="line">            <span class="keyword">return</span> aClass;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.findClass(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>上面的代码中，我们自定义了一个类让他去继承`ClassLoader `，然后重写其中的`findClass`方法，我们重写后的逻辑就是自己的指定的目录，也就是`d盘`下找到`Dog.class`文件 然后读取到一个byte数组中，然后调用`defineClass` 加载这个类。
+</code></pre><ul>
+<li><p>下面用一个简单的程序测试下</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        MyLoader myLoader = <span class="keyword">new</span> MyLoader();</span><br><span class="line">        Class&lt;?&gt; aClass = Class.forName(<span class="string">"com.example.demo.Dog"</span>, <span class="keyword">true</span>, myLoader);</span><br><span class="line">        Object o = aClass.newInstance();</span><br><span class="line">        System.out.println(o);</span><br><span class="line">        System.out.println(o.getClass().getClassLoader());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  这里的Class.forname 和以前不一样，我们后面对了两个参数，true代表类重新加载，myLoader就是我们自定义的类加载器</p>
+<p>  运行后显示：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">com.example.demo.Dog@2e817b38</span><br><span class="line">com.example.demo.MyLoader@4d405ef7</span><br></pre></td></tr></table></figure>
+<p>  可以看到已经使用了我们自定义的类加载器。</p>
+</li>
+</ul>
+<ul>
+<li>这里有一点要注意，就是个别编译器比较智能，如我使用的idea，他们会自定编译，直接把你的java文件编译成class 放入classpath下去了，所以在运行请务必吧这个文件删除，如果你用的是idea 把整个target删除就行</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/11/springcloud/" rel="next" title="spring cloud 学习">
+                <i class="fa fa-chevron-left"></i> spring cloud 学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/31/Spring 事务/" rel="prev" title="Spring事务">
+                Spring事务 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">谢子豪</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#类加载顺序"><span class="nav-number">1.</span> <span class="nav-text">类加载顺序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#双亲委派模式"><span class="nav-number">2.</span> <span class="nav-text">双亲委派模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义类加载器"><span class="nav-number">3.</span> <span class="nav-text">自定义类加载器</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢子豪</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

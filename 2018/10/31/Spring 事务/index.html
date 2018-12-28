@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="如何使用springbootspringboot比较简单，直接在输入加上@Transactional注解就可以 spring mvc 在spring配置文件中引入tx:命名空间  1234567&amp;lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSche">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring事务">
+<meta property="og:url" content="http://yoursite.com/2018/10/31/Spring 事务/index.html">
+<meta property="og:site_name" content="小X的博客">
+<meta property="og:description" content="如何使用springbootspringboot比较简单，直接在输入加上@Transactional注解就可以 spring mvc 在spring配置文件中引入tx:命名空间  1234567&amp;lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSche">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-28T07:50:13.168Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring事务">
+<meta name="twitter:description" content="如何使用springbootspringboot比较简单，直接在输入加上@Transactional注解就可以 spring mvc 在spring配置文件中引入tx:命名空间  1234567&amp;lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSche">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/31/Spring 事务/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spring事务 | 小X的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小X的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-分布式">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/分布式/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>分布式</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-java开发">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/java开发/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>java开发</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-并发编程">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/并发编程/" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>并发编程</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-jdk源码">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/jdk源码/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>jdk源码</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/31/Spring 事务/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢子豪">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小X的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring事务
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-31 15:55:01" itemprop="dateCreated datePublished" datetime="2018-10-31T15:55:01+08:00">2018-10-31</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-28 15:50:13" itemprop="dateModified" datetime="2018-12-28T15:50:13+08:00">2018-12-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/java开发/" itemprop="url" rel="index"><span itemprop="name">java开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h1><h2 id="springboot"><a href="#springboot" class="headerlink" title="springboot"></a>springboot</h2><p>springboot比较简单，直接在输入加上<code>@Transactional</code>注解就可以</p>
+<h2 id="spring-mvc"><a href="#spring-mvc" class="headerlink" title="spring mvc"></a>spring mvc</h2><ol>
+<li><p>在spring配置文件中引入<a href="tx:" target="_blank" rel="noopener">tx:</a>命名空间</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag"> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag"> <span class="attr">xmlns:tx</span>=<span class="string">"http://www.springframework.org/schema/tx"</span></span></span><br><span class="line"><span class="tag"> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string"> http://www.springframework.org/schema/beans/spring-beans-2.0.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string"> http://www.springframework.org/schema/tx</span></span></span><br><span class="line"><span class="tag"><span class="string"> http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> 主要是要引入那几个/tx 的命名空间</p>
+</li>
+<li><p>设置拥有@Transactional 注解的bean 自动配置申明支持事务</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 事务管理器配置, Hibernate单数据源事务 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"defaultTransactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.orm.hibernate3.HibernateTransactionManager"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sessionFactory"</span> <span class="attr">ref</span>=<span class="string">"sessionFactory"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 使用annotation定义事务 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">"defaultTransactionManager"</span> <span class="attr">proxy-target-class</span>=<span class="string">"true"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>3.在接口或类的声明处 ,写一个@Transactional</p>
+<p>   要是只在接口上写, 接口的实现类就会继承下来、接口的实现类的具体方法,可以覆盖类声明处的设置</p>
+<h1 id="事务的传播级别"><a href="#事务的传播级别" class="headerlink" title="事务的传播级别"></a>事务的传播级别</h1><p>事务可以通过形如<br>@Transactional(propagation=Propagation.REQUIRED)<br>设置传播级别 一共6级</p>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REQUIED</td>
+<td>如果有事务，加入事务，没有就新建一个事务</td>
+</tr>
+<tr>
+<td>NOT_SUPPORTED</td>
+<td>不为这个方法开启事务</td>
+</tr>
+<tr>
+<td>REQUIRES_NEW</td>
+<td>不管是否存在事务,都创建一个新的事务,原来的挂起,新的执行完毕,继续执行老的事务</td>
+</tr>
+<tr>
+<td>MANDATORY</td>
+<td>必须在一个已有的事务中执行,否则抛出异常</td>
+</tr>
+<tr>
+<td>NEVER</td>
+<td>必须在一个没有的事务中执行,否则抛出异</td>
+</tr>
+<tr>
+<td>SUPPORTS</td>
+<td>如果其他bean调用这个方法,在其他bean中声明事务,那就用事务.如果其他bean没有声明事务,那就不用事务</td>
+</tr>
+</tbody>
+</table>
+<h1 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h1><table>
+<thead>
+<tr>
+<th>级别</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>READ_UNCOMMITTED</td>
+<td>读取未提交，可能出现脏读、不可重复读、幻读</td>
+</tr>
+<tr>
+<td>READ_COMMITED</td>
+<td>读取已提交数据，可能出现不可重复读、幻读</td>
+</tr>
+<tr>
+<td>REPEATABLE_READ</td>
+<td>可重复读，可能出现幻读</td>
+</tr>
+<tr>
+<td>SERIALIZABLE</td>
+<td>串行化，没有问题</td>
+</tr>
+</tbody>
+</table>
+<h1 id="对几种不良情况的解释"><a href="#对几种不良情况的解释" class="headerlink" title="对几种不良情况的解释"></a>对几种不良情况的解释</h1><p>1、脏读：事务A读取了事务B更新的数据，然后B回滚操作，那么A读取到的数据是脏数据</p>
+<p>　　2、不可重复读：事务 A 多次读取同一数据，事务 B 在事务A多次读取的过程中，对数据作了更新并提交，导致事务A多次读取同一数据时，结果 不一致。</p>
+<p>　　3、幻读：系统管理员A将数据库中所有学生的成绩从具体分数改为ABCDE等级，但是系统管理员B就在这个时候插入了一条具体分数的记录，当系统管理员A改结束后发现还有一条记录没有改过来，就好像发生了幻觉一样，这就叫幻读。</p>
+<p>　　小结：不可重复读的和幻读很容易混淆，不可重复读侧重于修改，幻读侧重于新增或删除。解决不可重复读的问题只需锁住满足条件的行，解决幻读需要锁表</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/11/java类加载机制和自定义类加载器/" rel="next" title="java类加载机制和自定义类加载器">
+                <i class="fa fa-chevron-left"></i> java类加载机制和自定义类加载器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/23/springBean 生命周期/" rel="prev" title="SpringBean生命周期">
+                SpringBean生命周期 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">谢子豪</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#如何使用"><span class="nav-number">1.</span> <span class="nav-text">如何使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#springboot"><span class="nav-number">1.1.</span> <span class="nav-text">springboot</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-mvc"><span class="nav-number">1.2.</span> <span class="nav-text">spring mvc</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事务的传播级别"><span class="nav-number">2.</span> <span class="nav-text">事务的传播级别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事务的隔离级别"><span class="nav-number">3.</span> <span class="nav-text">事务的隔离级别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对几种不良情况的解释"><span class="nav-number">4.</span> <span class="nav-text">对几种不良情况的解释</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢子豪</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
