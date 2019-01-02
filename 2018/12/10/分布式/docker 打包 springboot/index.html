@@ -104,26 +104,24 @@
 
 
 
-  <meta name="description" content="SpringBean 的生命周期大致如下图所示  下面对这张图做一下详细的解释   实例化： 就是我们 new 一个对象的时候 调用反射设置属性的值：使用依赖注入，Spring按照Bean定义信息配置Bean所有属性 调用 Aware 方法： 如果实现了Aware 相关的接口，比如  org.springframework.beans.BeanNameAware ，这个接口实现后，spring 可">
+  <meta name="description" content="首先我们用idea 创建一个简单的springboot 项目，只需要加入web核心的依赖就行下面是pom 文件要加入的内容12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758&amp;lt;properties&amp;gt;        &amp;lt;do">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SpringBean生命周期">
-<meta property="og:url" content="http://yoursite.com/2018/11/23/springBean 生命周期/index.html">
+<meta property="og:title" content="docker打包spring boot">
+<meta property="og:url" content="http://yoursite.com/2018/12/10/分布式/docker 打包 springboot/index.html">
 <meta property="og:site_name" content="小X的博客">
-<meta property="og:description" content="SpringBean 的生命周期大致如下图所示  下面对这张图做一下详细的解释   实例化： 就是我们 new 一个对象的时候 调用反射设置属性的值：使用依赖注入，Spring按照Bean定义信息配置Bean所有属性 调用 Aware 方法： 如果实现了Aware 相关的接口，比如  org.springframework.beans.BeanNameAware ，这个接口实现后，spring 可">
+<meta property="og:description" content="首先我们用idea 创建一个简单的springboot 项目，只需要加入web核心的依赖就行下面是pom 文件要加入的内容12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758&amp;lt;properties&amp;gt;        &amp;lt;do">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20181122190607587.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqc3h4emg=,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2018-12-28T07:51:07.180Z">
+<meta property="og:updated_time" content="2018-12-28T07:48:29.545Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SpringBean生命周期">
-<meta name="twitter:description" content="SpringBean 的生命周期大致如下图所示  下面对这张图做一下详细的解释   实例化： 就是我们 new 一个对象的时候 调用反射设置属性的值：使用依赖注入，Spring按照Bean定义信息配置Bean所有属性 调用 Aware 方法： 如果实现了Aware 相关的接口，比如  org.springframework.beans.BeanNameAware ，这个接口实现后，spring 可">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20181122190607587.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqc3h4emg=,size_16,color_FFFFFF,t_70">
+<meta name="twitter:title" content="docker打包spring boot">
+<meta name="twitter:description" content="首先我们用idea 创建一个简单的springboot 项目，只需要加入web核心的依赖就行下面是pom 文件要加入的内容12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758&amp;lt;properties&amp;gt;        &amp;lt;do">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/11/23/springBean 生命周期/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/10/分布式/docker 打包 springboot/">
 
 
 
@@ -133,7 +131,7 @@
   };
 </script>
 
-  <title>SpringBean生命周期 | 小X的博客</title>
+  <title>docker打包spring boot | 小X的博客</title>
   
 
 
@@ -366,7 +364,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/23/springBean 生命周期/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/10/分布式/docker 打包 springboot/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="谢子豪">
@@ -383,7 +381,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SpringBean生命周期
+          <h1 class="post-title" itemprop="name headline">docker打包spring boot
 
               
             
@@ -409,7 +407,7 @@
                 
               
 
-              <time title="创建时间：2018-11-23 08:58:52" itemprop="dateCreated datePublished" datetime="2018-11-23T08:58:52+08:00">2018-11-23</time>
+              <time title="创建时间：2018-12-10 23:08:47" itemprop="dateCreated datePublished" datetime="2018-12-10T23:08:47+08:00">2018-12-10</time>
             
 
             
@@ -426,7 +424,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-28 15:51:07" itemprop="dateModified" datetime="2018-12-28T15:51:07+08:00">2018-12-28</time>
+                <time title="修改时间：2018-12-28 15:48:29" itemprop="dateModified" datetime="2018-12-28T15:48:29+08:00">2018-12-28</time>
               
             
           </span>
@@ -443,7 +441,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/java开发/" itemprop="url" rel="index"><span itemprop="name">java开发</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/分布式/" itemprop="url" rel="index"><span itemprop="name">分布式</span></a></span>
 
                 
                 
@@ -477,21 +475,16 @@
       
 
       
-        <h2 id="SpringBean-的生命周期大致如下图所示"><a href="#SpringBean-的生命周期大致如下图所示" class="headerlink" title="SpringBean 的生命周期大致如下图所示"></a>SpringBean 的生命周期大致如下图所示</h2><p><img src="https://img-blog.csdnimg.cn/20181122190607587.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqc3h4emg=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<ul>
-<li>下面对这张图做一下详细的解释</li>
-</ul>
-<ol>
-<li>实例化： 就是我们 <code>new</code> 一个对象的时候</li>
-<li>调用反射设置属性的值：使用依赖注入，Spring按照Bean定义信息配置Bean所有属性</li>
-<li>调用 Aware 方法： 如果实现了Aware 相关的接口，比如  <code>org.springframework.beans.BeanNameAware</code> ，这个接口实现后，spring 可以根据配置文件的 的 id ,和对应的值，来给对象赋值。相同的还有<code>org.springframework.beans.factory.BeanFactoryAware</code> 只不过他返回的是一个工厂。</li>
-<li>如果 bean 实现了 <code>org.springframework.beans.factory.config.BeanPostProcessors</code> ，那么会调用他的<code>postProcessBeforeInitialization（）</code> 方法</li>
-<li>如果Bean定义文件中定义init-method，那么会调用bean的<code>initBean()</code>方法。</li>
-<li>同上述步骤4，如果实现了 BeanPostProcessors 接口那么会调用<code>postProcessAfterInitialization（）</code>方法，到这一步为止，bean 已经创建完毕</li>
-<li>当容器关闭的时候 如果实现了 <code>DisposableBean</code>方法,会调用 <code>destroy()</code> 方法。</li>
-<li>最后如果配置了destroy-method属性，会自动调用其配置的销毁方法</li>
-</ol>
-<p>这里有一篇讲的很好的文章：<a href="https://www.cnblogs.com/kenshinobiy/p/4652008.html" target="_blank" rel="noopener">https://www.cnblogs.com/kenshinobiy/p/4652008.html</a>   </p>
+        <p>首先我们用idea 创建一个简单的springboot 项目，只需要加入web核心的依赖就行<br>下面是pom 文件要加入的内容<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">        &lt;docker.image.prefix&gt;xiezihao&lt;/docker.image.prefix&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;2.4.2&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;skipTests&gt;true&lt;/skipTests&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;3.3&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;source&gt;1.8&lt;/source&gt;</span><br><span class="line">                    &lt;target&gt;1.8&lt;/target&gt;</span><br><span class="line">                    &lt;encoding&gt;UTF-8&lt;/encoding&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;com.spotify&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;dockerfile-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;1.3.6&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;repository&gt;</span><br><span class="line">                        $&#123;docker.image.prefix&#125;/$&#123;project.artifactId&#125;</span><br><span class="line">                    &lt;/repository&gt;</span><br><span class="line">                    &lt;buildArgs&gt;</span><br><span class="line">                        &lt;JAR_FILE&gt;target/$&#123;project.build.finalName&#125;.jar&lt;/JAR_FILE&gt;</span><br><span class="line">                    &lt;/buildArgs&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br></pre></td></tr></table></figure></p>
+<p>docker.image.prefix 就是你打包完成后的镜像前缀。</p>
+<p>接下去在项目的根目录下新建一个<code>Dockerfile</code> 文件<br>,输入如下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM openjdk:8-jdk-alpine</span><br><span class="line">VOLUME /tmp</span><br><span class="line">ARG JAR_FILE</span><br><span class="line">COPY $&#123;JAR_FILE&#125; app.jar</span><br><span class="line">ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;,&quot;-jar&quot;,&quot;/app.jar&quot;]</span><br></pre></td></tr></table></figure></p>
+<p>打开cmd,进入到项目的根目录下<br>执行<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn install dockerfile:build --settings D:\code\maven\apache-maven-<span class="number">3.5</span>.0\conf\settingstaotao.xml</span><br></pre></td></tr></table></figure></p>
+<p>settings 后面是你指定的maven 配置文件的目录</p>
+<p>运行后，将会打包成images </p>
+<p>使用<code>docker images</code> 可以看到我们刚刚打包好的images<br>如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY                                         TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">xiezihao/dockerdemo                                latest              5cbacc1f72aa        8 minutes ago       103MB</span><br></pre></td></tr></table></figure></p>
+<p>然后我们利用这个images  运行一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 7777:8080  --name demodocker  5cbacc1f72aa</span><br></pre></td></tr></table></figure></p>
+<p>之后我们利用<br><code>docker logs -f   demodocker</code><br>可以看下启动的日志,如果启动没有问题，那么我们可以在<br>docker ps 中看到我们的容器，这个时候说明我们打包的iamge 是没有问题的。</p>
+<p>我们可以利用<br>docker exec -it  b5c6d7064c08 /bin/sh<br>或者<br>docker exec -it  b5c6d7064c08 /bin/bash<br>进入我们的容器中</p>
 
       
     </div>
@@ -522,8 +515,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/31/Spring 事务/" rel="next" title="Spring事务">
-                <i class="fa fa-chevron-left"></i> Spring事务
+              <a href="/2018/11/25/java开发/Spring知识学习/" rel="next" title="Spring知识学习">
+                <i class="fa fa-chevron-left"></i> Spring知识学习
               </a>
             
           </div>
@@ -532,8 +525,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/11/25/Spring知识学习/" rel="prev" title="Spring知识学习">
-                Spring知识学习 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/28/hello-world/" rel="prev" title="欢迎光临">
+                欢迎光临 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -579,17 +572,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -654,23 +638,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBean-的生命周期大致如下图所示"><span class="nav-number">1.</span> <span class="nav-text">SpringBean 的生命周期大致如下图所示</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
